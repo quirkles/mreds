@@ -6,9 +6,9 @@ steps:
       - decrypt
       - --ciphertext-file=./src/constants/constants.ts.enc
       - --plaintext-file=./src/constants/constants.ts
-      - --location=global
-      - --keyring=madrid-reds
-      - --key=secrets-enc-key
+      - --location=us-central1
+      - --keyring=encryption_keys
+      - --key=secrets-env_encryption
 
   - id: 'build docker image'
     name: 'gcr.io/cloud-builders/docker'
