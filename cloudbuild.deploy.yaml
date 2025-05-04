@@ -8,7 +8,7 @@ steps:
       - --plaintext-file=./src/constants/constants.ts
       - --location=us-central1
       - --keyring=encryption_keys
-      - --key=secrets-env_encryption
+      - --key=env_encryption
 
   - id: 'build docker image'
     name: 'gcr.io/cloud-builders/docker'
