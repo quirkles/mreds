@@ -14,8 +14,8 @@
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
     "clean": "rimraf dist/",
     "build": "tsc",
-    "encrypt-secrets": "gcloud kms encrypt --key=secrets-enc-key --keyring=madrid-reds --location=global --plaintext-file=src/constants/constants.ts --ciphertext-file=src/constants/constants.ts.enc",
-    "decrypt-secrets": "gcloud kms decrypt --key=secrets-enc-key --keyring=madrid-reds --location=global --plaintext-file=src/constants/constants.ts --ciphertext-file=src/constants/constants.ts.enc",
+    "encrypt-secrets": "gcloud kms encrypt --key=env_encryption --keyring=encryption_keys --location=us-central1 --plaintext-file=src/constants/constants.ts --ciphertext-file=src/constants/constants.ts.enc",
+    "decrypt-secrets": "gcloud kms decrypt --key=env_encryption --keyring=encryption_keys --location=us-central1 --plaintext-file=src/constants/constants.ts --ciphertext-file=src/constants/constants.ts.enc",
     "copy-files": "copyfiles -u 1 src/**/*.graphql dist/"
   },
   "engines": {
