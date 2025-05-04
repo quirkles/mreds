@@ -1,0 +1,28 @@
+steps:
+  - id: 'decrypt constants'
+    name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - kms
+      - decrypt
+      - --ciphertext-file=./src/constants/constants.ts.enc
+      - --plaintext-file=./src/constants/constants.ts
+      - --location=global
+      - --keyring=madrid-reds
+      - --key=secrets-enc-key
+
+  - id: 'build docker image'
+    name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'madrid-reds:$COMMIT_SHA', '.',  '--build-arg', 'DATABASE=$_DATABASE']
+
+  - id: 'tag docker image'
+    name: 'gcr.io/cloud-builders/docker'
+    args: [ 'tag', 'madrid-reds:$COMMIT_SHA', 'europe-southwest1-docker.pkg.dev/madrid-reds-369822/madrid-reds-docker-images/madrid-reds:$COMMIT_SHA']
+
+  - id: 'push docker image'
+    name: 'gcr.io/cloud-builders/docker'
+    args: [ 'push', 'europe-southwest1-docker.pkg.dev/madrid-reds-369822/madrid-reds-docker-images/madrid-reds:$COMMIT_SHA']
+
+  - id: 'deploy image'
+    name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: [ 'run', 'deploy', 'madrid-reds', '--image', 'europe-southwest1-docker.pkg.dev/madrid-reds-369822/madrid-reds-docker-images/madrid-reds:$COMMIT_SHA', '--region', 'northamerica-northeast2', '--memory', '128Mi', '--port', '3002', '--allow-unauthenticated', '--cpu-throttling']

@@ -1,0 +1,71 @@
+steps:
+  - id: 'decrypt constants'
+    name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - kms
+      - decrypt
+      - --ciphertext-file=./src/constants/constants.ts.enc
+      - --plaintext-file=./src/constants/constants.ts
+      - --location=global
+      - --keyring=madrid-reds
+      - --key=secrets-enc-key
+  - id: 'install deps, root'
+    name: node:16
+    entrypoint: npm
+    args:
+      - 'install'
+
+  - id: 'install deps, client'
+    name: node:16
+    entrypoint: npm
+    args:
+      - 'install'
+    dir: 'client'
+
+  - id: 'lint, root'
+    name: node:16
+    entrypoint: npm
+    args:
+      - 'run'
+      - 'lint'
+      - '--debug'
+
+  - id: 'lint, client'
+    name: node:16
+    entrypoint: npm
+    args:
+      - 'run'
+      - 'lint'
+      - '--debug'
+    dir: 'client'
+
+  #  - id: 'test, root'
+  #    name: node:16
+  #    entrypoint: npm
+  #    args:
+  #      - 'run'
+  #      - 'test'
+  # Tests currently not running
+
+  - id: 'test, client'
+    name: node:16
+    entrypoint: npm
+    args:
+      - 'run'
+      - 'pre-push'
+    dir: 'client'
+
+  - id: 'build, root'
+    name: node:16
+    entrypoint: npm
+    args:
+      - 'run'
+      - 'build'
+
+  - id: 'build, client'
+    name: node:16
+    entrypoint: npm
+    args:
+      - 'run'
+      - 'build'
+    dir: 'client'

@@ -1,0 +1,11 @@
+/client/node_modules
+/node_modules
+.env
+.DS_Store
+/.vscode
+out/
+# TS -incremental file
+tsconfig.tsbuildinfo
+/dist
+src/constants/constants.ts
+.idea

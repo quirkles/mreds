@@ -1,0 +1,16 @@
+name: MR Stats CI
+on: [pull_request]
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Install server side
+        run: npm install
+      - name: Install client side
+        run: cd client && npm install
+      - name: Build
+        run: cd client && npm run build
+      - name: unit Tests
+        run: cd client && npm run test
