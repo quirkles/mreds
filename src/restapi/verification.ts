@@ -4,7 +4,7 @@ import { API_ROUTES, EMAIL_ADDRESS, URL } from '../constants/constants';
 import { User, UserModel } from '../entities';
 import { decodeToken, generateVerificationToken } from '../services/jwt';
 import { Logger } from '../services/Logger/Logger';
-import { sendEmail, verifyAccountMail } from '../services/mail';
+import { sendEmail, sendEmailAndThrow, verifyAccountMail } from '../services/mail';
 
 router.post(
   `${API_ROUTES.PUBLIC}/verify_email`,
@@ -119,7 +119,8 @@ router.post(
     logger.info("ResendValidationEmail: Sending email")
 
     try {
-      await sendEmail(mail, res);
+      await sendEmailAndThrow(mail);
+      logger.info("ResendValidationEmail: Email sent")
     } catch (err) {
       logger.warn("ResendValidationEmail: Error sending email", { err, mail })
       return res.status(500).send({
