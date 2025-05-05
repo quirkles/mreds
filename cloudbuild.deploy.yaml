@@ -25,4 +25,4 @@ steps:
   - id: 'deploy image'
     name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
-    args: [ 'run', 'deploy', 'madrid-reds', '--image', 'northamerica-northeast2-docker.pkg.dev/quirkles-potw/madrid-reds/madrid-reds:$COMMIT_SHA', '--region', 'northamerica-northeast2', '--memory', '128Mi', '--port', '3002', '--allow-unauthenticated', '--cpu-throttling']
+    args: [ 'run', 'deploy', 'madrid-reds', '--image', 'northamerica-northeast2-docker.pkg.dev/quirkles-potw/madrid-reds/madrid-reds:$COMMIT_SHA', '--region', 'northamerica-northeast2', '--memory', '512Mi', '--port', '3002', '--allow-unauthenticated', '--cpu-throttling']
